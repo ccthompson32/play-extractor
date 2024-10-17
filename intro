@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Welcome message
+echo "Welcome to the Play Extractor!"
+
+# Prompt for the play's text file
+read -p "Please enter the path to the play's text file: " play_file
+
+# Check if the file exists
+if [[ ! -f "$play_file" ]]; then
+  echo "Error: File not found. Please check the path and try again."
+  exit 1
+fi
+
+# Prompt for the character's name
+read -p "Enter the name of the character you want to extract: " character
+
+# Inform the user about the process
+echo "Extracting lines for $character from the play..."
+
+# Loop through the file and extract the character's lines
+grep -E "^$character:" "$play_file" | sed "s/^$character: //"
+
+# Check if any lines were found
+if [[ $? -ne 0 ]]; then
+  echo "No lines found for the character: $character"
+else
+  echo "Extraction complete."
+fi
